@@ -2,7 +2,6 @@ language: python
 install:
   - pip install beancount
 script:
-  - npm install
   - bean-bake main.bean build
 deploy:
   provider: script
