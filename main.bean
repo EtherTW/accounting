@@ -12,6 +12,9 @@
 ; Yuren 代墊的欠款
 2019-08-30 open Liabilities:Yuren TWD
 
+2019-08-30 open Income:Sponsor:ETH
+2019-08-30 open Income:Sponsor:TWD
+
 option "operating_currency" "TWD"
 
 2019-08-30 * "Yuren" "代墊"
@@ -21,3 +24,15 @@ option "operating_currency" "TWD"
 2019-08-30 * "初始金額"
     Assets:Ethereum:GnosisWallet:ETH 0.866521001981 ETH {4,672 TWD}
     Equity:Opening-Balances
+
+2019-09-02 * "GPUMINE & Block2" "贊助金"
+    Assets:Ethereum:GnosisWallet:ETH 5 ETH {5,382.9 TWD}
+    Income:Sponsor:ETH
+
+2019-09-19 * "imToken" "贊助金"
+    Assets:Ethereum:GnosisWallet:ETH 7.796 ETH {6,461.8 TWD}
+    Income:Sponsor:ETH
+
+2019-09-19 ? "Aragon" "贊助金"
+    Assets:Ethereum:GnosisWallet:ETH 7.796 ETH {6,461.8 TWD}
+    Income:Sponsor:ETH
