@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono" rel="stylesheet" type="text/css">
 
-    <link href="../../../resources/web.css" rel="stylesheet" type="text/css">
-    <title>Beancount: Equity:Conversions:Current</title>
+    <link href="../../../../resources/web.css" rel="stylesheet" type="text/css">
+    <title>Beancount: Equity:Earnings:Current</title>
 
     <!-- begin scripts -->
     
@@ -18,20 +18,20 @@
   <body>
 
     <!-- The title of the input file, from the 'title' option. -->
-    <div id="title">Beancount - All Transactions</div>
+    <div id="title">Beancount - Year 2021</div>
 
     
       <div class="navigation" id="nav-right">
         <ul>
-          
+          <li><span class="removed-link">Monthly</span></li>
         </ul>
       </div>
 
     <div class="navigation">
       
 <ul id="nav-main">
-  <li><a href="../../../index.html">Table of Contents</a></li>
-  <li><span class="ledger-name">All Transactions:</span></li>
+  <li><a href="../../../../index.html">Table of Contents</a></li>
+  <li><span class="ledger-name">Year 2021:</span></li>
   <li><a href="../balsheet.html">Balance Sheet</a></li>
   <li><a href="../income.html">Income Statement</a></li>
   <li><a href="../equity/holdings.html">Equity/Holdings</a></li>
@@ -43,7 +43,7 @@
     </div>
 
     <!-- The title of this page, what information we're displaying. -->
-    <h1 id="pagetitle">Equity:Conversions:Current</h1>
+    <h1 id="pagetitle">Equity:Earnings:Current</h1>
 
     <!-- The contents of this page. -->
     <div id="contents">
@@ -63,22 +63,34 @@
       </thead>
     
 
-          <tr class="Transaction " title="&lt;conversions&gt;:-1">
+          <tr class="Transfer " title="&lt;transfer_balances&gt;:0">
             <td class="datecell"><span class="removed-link">2021-08-02</span></td>
-            <td class="flag">C</td>
-            <td class="description" colspan="4"><span class="narration">Conversion for (-1285280.341488312888696390250 TWD, 4492.74 DAI {27.89 TWD, 2021-08-01}, 0.004148135457049726 DAI {30.450 TWD, 2019-11-20}, 0.014117511970388476 ETH {5660.0 TWD, 2019-10-15}, 16.21 ETH {71554.46 TWD, 2021-08-01})</span></td>
-            <td class="change num">-0.0 TWD</td>
-            <td class="balance num">-0.0 TWD</td>
+            <td class="flag">T</td>
+            <td class="description" colspan="4"><span class="narration">Transfer balance for 'Income:Trade:PnL' (Transfer balance)</span></td>
+            <td class="change num">-1060098.9 TWD</td>
+            <td class="balance num">-1060098.9 TWD</td>
           </tr>
         
+
+                  <tr class="Posting">
+                    <td class="datecell"></td>
+                    <td class="flag"></td>
+                    <td class="description"><span><a href="Income:Trade:PnL.html" class="account">Income:Trade:PnL</a></span></td>
+                    <td class="position num">1060098.910388545077621124754 TWD</td>
+                    <td class="price num"></td>
+                    <td class="cost num">1060098.910388545077621124754 TWD</td>
+                    <td class="change num"></td>
+                    <td class="balance num"></td>
+                  </tr>
+                
 
                   <tr class="Posting leg">
                     <td class="datecell"></td>
                     <td class="flag"></td>
-                    <td class="description"><span><a href="Equity:Conversions:Current.html" class="account">Equity:Conversions:Current</a></span></td>
-                    <td class="position num">-0.005140164177241926450 TWD</td>
+                    <td class="description"><span><a href="Equity:Earnings:Current.html" class="account">Equity:Earnings:Current</a></span></td>
+                    <td class="position num">-1060098.910388545077621124754 TWD</td>
                     <td class="price num"></td>
-                    <td class="cost num">-0.000000000000000000000 NOTHING</td>
+                    <td class="cost num">-1060098.910388545077621124754 TWD</td>
                     <td class="change num"></td>
                     <td class="balance num"></td>
                   </tr>
