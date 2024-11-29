@@ -19,7 +19,7 @@ jobs:
       with:
         python-version: '3.9'
     - name: Install dependencies
-      run: pip install beancount==2.3.5
+      run: pip install beancount==2.3.0
     - name: Build static website
       run: bean-bake main.bean build
     - name: Deploy
