@@ -381,3 +381,14 @@ option "operating_currency" "TWD"
     Expenses:Grant
 
 2024-11-30 balance Assets:Ethereum:GnosisSafe 12.475391141 ETH
+
+2025-01-03 price ETH 113,477 TWD
+2025-01-03 price DAI 32.91 TWD
+
+2025-01-03 * "transfer to johnson86tw.eth for grant"
+    url: "https://etherscan.io/tx/0xbbe8a7c175c884d97cbab2067d48fca812148b9a8db9650e47a61f421b2ca356"
+    Assets:Ethereum:GnosisSafe                 -0.291 ETH {}
+    Expenses:Grant
+
+2025-01-04 balance Assets:Ethereum:GnosisSafe 12.184391141 ETH
+
