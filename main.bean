@@ -390,5 +390,11 @@ option "operating_currency" "TWD"
     Assets:Ethereum:GnosisSafe                 -0.291 ETH {}
     Expenses:Grant
 
-2025-01-04 balance Assets:Ethereum:GnosisSafe 12.184391141 ETH
+2025-02-01 * "transfer to jackchai.eth for Paragraph.xyz Survey grant"
+    url: "https://etherscan.io/tx/0x601d01e0c073ff881dc75662aca8faa8e51eff7f6f7040284e570bcd98036560"
+    github: "https://github.com/EtherTW/accounting/issues/17"
+    Assets:Ethereum:GnosisSafe                 -0.062 ETH {}
+    Expenses:Grant
+
+2025-02-02 balance Assets:Ethereum:GnosisSafe 12.122391141 ETH
 
