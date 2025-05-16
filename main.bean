@@ -398,3 +398,14 @@ option "operating_currency" "TWD"
 
 2025-02-02 balance Assets:Ethereum:GnosisSafe 12.122391141 ETH
 
+2025-05-16 * "transfer to johnson86tw.eth for grant"
+    url: "https://etherscan.io/tx/0x4c01c6ac5381dc81cfc2a814fc3f6030444cb93fe529423be12d44cc498388c5"
+    Assets:Ethereum:GnosisSafe                 -0.386 ETH {}
+    Expenses:Grant                            
+
+2025-05-16 * "adjustment"
+    Equity:Opening-Balances 
+    Assets:Ethereum:GnosisSafe 0.000001000000000000 ETH {78,664.43 TWD}
+
+2025-05-16 price ETH 78,664.43 TWD
+2025-05-17 balance Assets:Ethereum:GnosisSafe 11.736392141 ETH
