@@ -409,3 +409,13 @@ option "operating_currency" "TWD"
 
 2025-05-16 price ETH 78,664.43 TWD
 2025-05-17 balance Assets:Ethereum:GnosisSafe 11.736392141 ETH
+
+2026-04-04 price ETH 65,705.21 TWD
+
+2026-04-04 * "Nic" "TEM Grant - 去中心化領稿費機制實驗 2"
+    url: "https://etherscan.io/tx/0xa29804f3fff078bbac3f4197258fa209bb70b924effeffa8483dc391b090895f"
+    github: "https://github.com/EtherTW/accounting/issues/24"
+    Assets:Ethereum:GnosisSafe                 -1.22 ETH {}
+    Expenses:Grant
+
+2026-04-05 balance Assets:Ethereum:GnosisSafe 10.516392141 ETH
