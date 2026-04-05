@@ -43,9 +43,83 @@ const client = createPublicClient({
   ),
 });
 
+interface TransferInfo {
+  from: string;
+  to: string;
+  value: string;
+  token: "ETH" | "DAI";
+}
+
+async function fetchTransactionData(hash: Hex) {
+  const tx = await client.getTransaction({ hash });
+  const block = await client.getBlock({ blockNumber: tx.blockNumber! });
+  const timestamp = new Date(Number(block.timestamp) * 1000);
+  const date = timestamp.toISOString().split("T")[0];
+
+  // Use Alchemy's asset transfers API for accurate internal tx parsing
+  const response = await fetch(
+    `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "alchemy_getAssetTransfers",
+        params: [
+          {
+            fromBlock: `0x${tx.blockNumber!.toString(16)}`,
+            toBlock: `0x${tx.blockNumber!.toString(16)}`,
+            category: ["external", "internal", "erc20"],
+            withMetadata: false,
+            excludeZeroValue: true,
+            maxCount: "0x64",
+          },
+        ],
+      }),
+    }
+  );
+  const data = (await response.json()) as any;
+  const allTransfers = data.result?.transfers ?? [];
+
+  // Filter transfers belonging to this tx hash and involving the Safe
+  const safeLower = GNOSIS_SAFE.toLowerCase();
+  const transfers: TransferInfo[] = allTransfers
+    .filter(
+      (t: any) =>
+        t.hash.toLowerCase() === hash.toLowerCase() &&
+        (t.from.toLowerCase() === safeLower ||
+          t.to.toLowerCase() === safeLower)
+    )
+    .map((t: any) => ({
+      from: t.from,
+      to: t.to,
+      value: String(t.value),
+      token: t.asset === "DAI" ? ("DAI" as const) : ("ETH" as const),
+    }));
+
+  if (transfers.length === 0) {
+    throw new Error(
+      `No transfers involving GnosisSafe found in tx ${hash}`
+    );
+  }
+
+  const transfer = transfers[0]!;
+
+  return {
+    hash,
+    from: transfer.from,
+    to: transfer.to,
+    value: transfer.value,
+    token: transfer.token,
+    timestamp: timestamp.toISOString(),
+    date,
+  };
+}
+
 async function main() {
-  // Will be filled in next tasks
-  console.log(JSON.stringify({ txHash }, null, 2));
+  const txData = await fetchTransactionData(txHash);
+  console.log(JSON.stringify({ tx: txData }, null, 2));
 }
 
 main().catch((err) => {
