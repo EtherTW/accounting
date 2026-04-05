@@ -52,3 +52,8 @@ There is no build system, test suite, or linter configured in this repository.
 
 - Commit style: `fix #N: description` or `fixed #N: description` referencing GitHub issues
 - Single `master` branch
+
+## Language
+
+- 文件（`docs/superpowers/`）一律使用繁體中文撰寫
+- 程式碼與註解一律使用英文
