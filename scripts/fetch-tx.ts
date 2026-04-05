@@ -56,41 +56,51 @@ async function fetchTransactionData(hash: Hex) {
   const timestamp = new Date(Number(block.timestamp) * 1000);
   const date = timestamp.toISOString().split("T")[0]!;
 
-  // Use Alchemy's asset transfers API for accurate internal tx parsing
-  const response = await fetch(
-    `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-    {
+  // Use Alchemy's asset transfers API for accurate internal tx parsing.
+  // Query outgoing and incoming transfers separately with address filters,
+  // since unfiltered queries hit maxCount limits on busy blocks.
+  const blockHex = `0x${tx.blockNumber!.toString(16)}`;
+  const baseParams = {
+    fromBlock: blockHex,
+    toBlock: blockHex,
+    category: ["external", "internal", "erc20"],
+    withMetadata: false,
+    excludeZeroValue: true,
+  };
+
+  const [outRes, inRes] = await Promise.all([
+    fetch(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         jsonrpc: "2.0",
         id: 1,
         method: "alchemy_getAssetTransfers",
-        params: [
-          {
-            fromBlock: `0x${tx.blockNumber!.toString(16)}`,
-            toBlock: `0x${tx.blockNumber!.toString(16)}`,
-            category: ["external", "internal", "erc20"],
-            withMetadata: false,
-            excludeZeroValue: true,
-            maxCount: "0x64",
-          },
-        ],
+        params: [{ ...baseParams, fromAddress: GNOSIS_SAFE }],
       }),
-    }
-  );
-  const data = (await response.json()) as any;
-  const allTransfers = data.result?.transfers ?? [];
+    }),
+    fetch(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 2,
+        method: "alchemy_getAssetTransfers",
+        params: [{ ...baseParams, toAddress: GNOSIS_SAFE }],
+      }),
+    }),
+  ]);
 
-  // Filter transfers belonging to this tx hash and involving the Safe
-  const safeLower = GNOSIS_SAFE.toLowerCase();
+  const outData = (await outRes.json()) as any;
+  const inData = (await inRes.json()) as any;
+  const allTransfers = [
+    ...(outData.result?.transfers ?? []),
+    ...(inData.result?.transfers ?? []),
+  ];
+
+  // Filter transfers belonging to this specific tx hash
   const transfers: TransferInfo[] = allTransfers
-    .filter(
-      (t: any) =>
-        t.hash.toLowerCase() === hash.toLowerCase() &&
-        (t.from.toLowerCase() === safeLower ||
-          t.to.toLowerCase() === safeLower)
-    )
+    .filter((t: any) => t.hash.toLowerCase() === hash.toLowerCase())
     .map((t: any) => ({
       from: t.from,
       to: t.to,
