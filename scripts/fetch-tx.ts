@@ -173,10 +173,48 @@ async function fetchPrice(date: string): Promise<PriceData> {
   };
 }
 
+// Minimal ERC-20 ABI for balanceOf
+const erc20Abi = [
+  {
+    name: "balanceOf",
+    type: "function",
+    stateMutability: "view",
+    inputs: [{ name: "account", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+] as const;
+
+interface BalanceData {
+  ETH: string;
+  DAI: string;
+}
+
+async function fetchBalances(): Promise<BalanceData> {
+  const [ethBalance, daiBalance] = await Promise.all([
+    client.getBalance({ address: GNOSIS_SAFE }),
+    client.readContract({
+      address: DAI_CONTRACT,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: [GNOSIS_SAFE],
+    }),
+  ]);
+
+  return {
+    ETH: formatEther(ethBalance),
+    DAI: formatUnits(daiBalance, 18),
+  };
+}
+
 async function main() {
   const txData = await fetchTransactionData(txHash);
-  const price = await fetchPrice(txData.date);
-  console.log(JSON.stringify({ tx: txData, price }, null, 2));
+  const [price, balance] = await Promise.all([
+    fetchPrice(txData.date),
+    fetchBalances(),
+  ]);
+
+  const result = { tx: txData, price, balance };
+  console.log(JSON.stringify(result, null, 2));
 }
 
 main().catch((err) => {
