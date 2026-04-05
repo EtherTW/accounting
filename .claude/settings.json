@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run scripts/fetch-tx.ts:*)",
+      "Bash(bean-check main.bean)",
+      "Bash(bean-query main.bean:*)"
+    ]
+  }
+}
