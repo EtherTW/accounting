@@ -99,6 +99,17 @@ bun run scripts/fetch-tx.ts --tx <hash>
 
 執行 `bean-check main.bean` 確認帳本仍然有效。如果失敗，顯示錯誤並協助使用者修正。
 
+### 步驟 8：Commit
+
+確認使用者同意後，commit 變更並關閉 issue：
+
+```bash
+git add main.bean
+git commit -m "fixed #<number>: <narration>"
+```
+
+使用 `fixed #<number>` 格式讓 GitHub 自動關閉對應的 issue。
+
 ## 格式規則
 
 - price：放在交易之前，僅在 `main.bean` 中
