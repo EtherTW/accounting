@@ -54,7 +54,7 @@ async function fetchTransactionData(hash: Hex) {
   const tx = await client.getTransaction({ hash });
   const block = await client.getBlock({ blockNumber: tx.blockNumber! });
   const timestamp = new Date(Number(block.timestamp) * 1000);
-  const date = timestamp.toISOString().split("T")[0];
+  const date = timestamp.toISOString().split("T")[0]!;
 
   // Use Alchemy's asset transfers API for accurate internal tx parsing
   const response = await fetch(
@@ -117,9 +117,66 @@ async function fetchTransactionData(hash: Hex) {
   };
 }
 
+interface PriceData {
+  ETH_TWD: number;
+  DAI_TWD: number;
+}
+
+async function fetchPrice(date: string): Promise<PriceData> {
+  // CoinGecko expects dd-mm-yyyy format
+  const [year, month, day] = date.split("-");
+  const cgDate = `${day}-${month}-${year}`;
+
+  const headers: Record<string, string> = {
+    accept: "application/json",
+    "x-cg-demo-api-key": COINGECKO_API_KEY!,
+  };
+
+  const [ethRes, daiRes] = await Promise.all([
+    fetch(
+      `https://api.coingecko.com/api/v3/coins/ethereum/history?date=${cgDate}`,
+      { headers }
+    ),
+    fetch(
+      `https://api.coingecko.com/api/v3/coins/dai/history?date=${cgDate}`,
+      { headers }
+    ),
+  ]);
+
+  if (!ethRes.ok) {
+    throw new Error(
+      `CoinGecko ETH request failed: ${ethRes.status} ${ethRes.statusText}`
+    );
+  }
+  if (!daiRes.ok) {
+    throw new Error(
+      `CoinGecko DAI request failed: ${daiRes.status} ${daiRes.statusText}`
+    );
+  }
+
+  const ethData = (await ethRes.json()) as any;
+  const daiData = (await daiRes.json()) as any;
+
+  const ethTwd = ethData.market_data?.current_price?.twd;
+  const daiTwd = daiData.market_data?.current_price?.twd;
+
+  if (ethTwd === undefined) {
+    throw new Error("ETH/TWD price not available from CoinGecko");
+  }
+  if (daiTwd === undefined) {
+    throw new Error("DAI/TWD price not available from CoinGecko");
+  }
+
+  return {
+    ETH_TWD: Math.round(ethTwd * 100) / 100,
+    DAI_TWD: Math.round(daiTwd * 100) / 100,
+  };
+}
+
 async function main() {
   const txData = await fetchTransactionData(txHash);
-  console.log(JSON.stringify({ tx: txData }, null, 2));
+  const price = await fetchPrice(txData.date);
+  console.log(JSON.stringify({ tx: txData, price }, null, 2));
 }
 
 main().catch((err) => {
