@@ -13,6 +13,20 @@ description: 從 GitHub Issue 記錄以太坊交易到 Beancount 帳本。當使
 
 ## 工作流程
 
+### 步驟 0：確認分支
+
+檢查目前是否在 `master` 分支上：
+
+```bash
+git branch --show-current
+```
+
+如果在 `master`，建立並切換到新分支：
+
+```bash
+git checkout -b accounting/issue-<number>
+```
+
 ### 步驟 1：讀取 GitHub Issue
 
 執行以下指令取得 issue 內容與留言：
