@@ -419,3 +419,13 @@ option "operating_currency" "TWD"
     Expenses:Grant
 
 2026-04-05 balance Assets:Ethereum:GnosisSafe 10.516392141 ETH
+
+2026-05-23 price ETH 64,974.45 TWD
+
+2026-05-23 * "Nic" "TEM Grant - Web2 整合 ENS Survey"
+    url: "https://etherscan.io/tx/0x16515a78c7fe4dc79ead33d9d220822892fe063a4143699a81b1783e29806c65"
+    github: "https://github.com/EtherTW/accounting/issues/26"
+    Assets:Ethereum:GnosisSafe                 -0.1454 ETH {}
+    Expenses:Grant
+
+2026-05-24 balance Assets:Ethereum:GnosisSafe 10.370992141 ETH
